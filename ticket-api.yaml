@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Movie Theater Ticket API
+  description: API service for purchasing, retrieving, and canceling movie theater tickets online.
+  version: 1.0.0
+paths:
+  /tickets:
+    post:
+      summary: Purchase a new movie ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - showtimeId
+                - seatId
+                - paymentToken
+              properties:
+                showtimeId:
+                  type: string
+                seatId:
+                  type: string
+                paymentToken:
+                  type: string
+      responses:
+        '201':
+          description: Created - Ticket successfully purchased
+        '400':
+          description: Bad Request - Missing required payment or seat information
+        '409':
+          description: Conflict - The requested seat is already booked
+
+  /tickets/{ticketId}:
+    get:
+      summary: Retrieve a purchased ticket's details
+      parameters:
+        - name: ticketId
+          in: path
+          required: true
+          description: The ID of the ticket to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Successfully retrieved ticket details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticketId:
+                    type: string
+                  movieTitle:
+                    type: string
+                  showtime:
+                    type: string
+                  seat:
+                    type: string
+        '404':
+          description: Not Found - The ticket ID does not exist
+          
+    delete:
+      summary: Cancel and refund a movie ticket
+      parameters:
+        - name: ticketId
+          in: path
+          required: true
+          description: The ID of the ticket to cancel
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Ticket successfully canceled and refunded
+        '403':
+          description: Forbidden - Ticket cannot be canceled
+        '404':
+          description: Not Found - The ticket ID does not exist

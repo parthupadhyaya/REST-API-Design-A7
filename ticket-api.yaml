@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Movie Theater Ticket API
-  description: API service for purchasing, retrieving, and canceling movie theater tickets online.
+  description: API service for purchasing, retrieving, and canceling movie theater tickets online. This specification defines the core ticket management endpoints used by client applications to interface with the theater's backend reservation system.
   version: 1.0.0
 paths:
   /tickets:
@@ -74,6 +74,6 @@ paths:
         '200':
           description: OK - Ticket successfully canceled and refunded
         '403':
-          description: Forbidden - Ticket cannot be canceled
+          description: Forbidden - Ticket cannot be canceled (e.g., cancellation window has passed)
         '404':
           description: Not Found - The ticket ID does not exist
